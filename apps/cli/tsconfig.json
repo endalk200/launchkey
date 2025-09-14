@@ -1,0 +1,16 @@
+{
+  "extends": "@launchkey/typescript-config/base",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "declaration": true,
+    "declarationMap": false,
+    "allowJs": false,
+    "sourceMap": false,
+    "removeComments": false,
+    "allowSyntheticDefaultImports": true,
+    "allowImportingTsExtensions": false,
+    "noEmitOnError": true
+  },
+  "include": ["src"]
+}
