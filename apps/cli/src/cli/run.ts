@@ -1,5 +1,5 @@
 import { Effect, Stdio } from "effect";
-import { Command } from "effect/unstable/cli";
+import { CliConfig, Command, GlobalFlag } from "effect/unstable/cli";
 
 import { VERSION } from "../version.js";
 import { rootCommand } from "./root.js";
@@ -38,6 +38,10 @@ const traceCliRun = <E, R>(args: ReadonlyArray<string>, effect: Effect.Effect<vo
 
 const normalizeCliArgs = (args: ReadonlyArray<string>) => (args.length === 0 ? ["--help"] : args);
 
+const launchKeyCliConfig = CliConfig.make({
+	builtIns: [GlobalFlag.Help, GlobalFlag.Version, GlobalFlag.Completions, GlobalFlag.LogLevel],
+});
+
 export const runCliWithArgs = (args: ReadonlyArray<string>) => {
 	const commandArgs = normalizeCliArgs(args);
 
@@ -45,7 +49,7 @@ export const runCliWithArgs = (args: ReadonlyArray<string>) => {
 		commandArgs,
 		Command.runWith(rootCommand, {
 			version: VERSION,
-		})(commandArgs),
+		})(commandArgs).pipe(Effect.provideService(CliConfig.CliConfig, launchKeyCliConfig)),
 	);
 };
 
