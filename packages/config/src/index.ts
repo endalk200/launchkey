@@ -409,7 +409,7 @@ const loadFileProvider = (
 
 		return {
 			_tag: "present",
-			provider: ConfigProvider.fromUnknown(parsed),
+			provider: ConfigProvider.fromUnknown(parsed, { preserveEmptyStrings: true }),
 		} satisfies ConfigFileSource;
 	}).pipe(
 		Effect.withSpan("launchkey.config.load_file", {

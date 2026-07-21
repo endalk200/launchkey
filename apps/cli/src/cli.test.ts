@@ -107,6 +107,7 @@ describe("launchkey CLI", () => {
 			assert.include(stdoutText, "Manage LaunchKey configuration");
 			assert.include(stdoutText, "config");
 			assert.include(stdoutText, "version");
+			assert.notInclude(stdoutText, "--wizard");
 		}),
 	);
 

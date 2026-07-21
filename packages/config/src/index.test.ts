@@ -139,6 +139,26 @@ otlp_endpoint = "not-a-url"
 		),
 	);
 
+	it.effect("rejects blank TOML telemetry endpoints", () =>
+		Effect.gen(function* () {
+			const report = yield* validateLaunchKeyConfigFromEnvironment({
+				[CONFIG_PATH_ENV]: "/tmp/launchkey-blank-endpoint.toml",
+			});
+
+			assert.strictEqual(report.file._tag, "invalid");
+			assert.strictEqual(report.effective._tag, "invalid");
+		}).pipe(
+			Effect.provide(
+				fileSystemLayer({
+					"/tmp/launchkey-blank-endpoint.toml": `[telemetry]
+enabled = true
+otlp_endpoint = ""
+`,
+				}),
+			),
+		),
+	);
+
 	it.effect("provides the resolved service through an Effect layer", () =>
 		Effect.gen(function* () {
 			const config = yield* LaunchKeyConfig;
